@@ -1,6 +1,6 @@
 import axios from 'axios';
 const axiosClient = axios.create({
-    baseURL: 'https://umichbucketlist.com/api/v1',
+    baseURL: 'https://app.umichbucketlist.com/api/v1',
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
