@@ -83,7 +83,13 @@ const EventModal: React.FC = () => {
     }
   };
 
+  // if the event is 50 days after the startDate, then display TBA for the time
+
   const startDate = new Date(start_date);
+  let presentEvent = true;
+  if (startDate.getTime() - new Date().getTime() > 50 * 24 * 60 * 60 * 1000) {
+    presentEvent = false;
+  }
   const endDate = new Date(end_date);
   const startTime = startDate.toLocaleDateString("en-US", {
     month: "short",
@@ -136,9 +142,15 @@ const EventModal: React.FC = () => {
                   <h3 className="text-sm font-semibold text-blue-700">{location}</h3>
                 </div>
                 <div className="flex flex-row ">
-                  <h3 className="text-sm font-semibold text-gray-600">{startTime}</h3>
-                  <h3 className="text-sm font-semibold text-gray-600 ml-2">-</h3>
-                  <h3 className="text-sm font-semibold text-gray-600 ml-2">{endTime}</h3>
+                  {presentEvent && (
+                    <h3 className="text-sm font-semibold text-gray-600">{startTime}</h3>
+                  )}
+                  <h3 className="text-sm font-semibold text-gray-600 ml-2">
+                    {presentEvent ? "-" : "Time: TBA"}
+                  </h3>
+                  {presentEvent && (
+                    <h3 className="text-sm font-semibold text-gray-600 ml-2">{endTime}</h3>
+                  )}
                 </div>
               </div>
               <div className="text-gray-500 font-thin text-sm mb-6 mx-3 px-2">{description}</div>

@@ -52,14 +52,24 @@ const EventCard = ({ event, eventIndex }: Props) => {
     setIsEventOpen(true);
   };
   const { title, description, location, joined } = event;
+
   const startDate = new Date(event.start_date);
-  const month = startDate.toLocaleString("default", { month: "short" });
-  const day = startDate.getDate();
-  const time = startDate.toLocaleString("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  });
+  const currentDate = new Date();
+
+  let currentEvent = true;
+  // if start date is after current date by more than 50 days, then it is a future event
+  if (startDate.getTime() - currentDate.getTime() > 50 * 24 * 60 * 60 * 1000) {
+    currentEvent = false;
+  }
+  const month = currentEvent ? startDate.toLocaleString("default", { month: "short" }) : "";
+  const day = currentEvent ? startDate.getDate() : "TBA";
+  const time = currentEvent
+    ? startDate.toLocaleString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      })
+    : "";
 
   // if joined event, change button to "joined" and disable button
   return (
